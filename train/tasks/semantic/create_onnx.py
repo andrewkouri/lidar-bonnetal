@@ -9,6 +9,7 @@ import subprocess
 import onnx
 import torch
 import yaml
+import __init__ as Booger
 from tasks.semantic.modules.user import User
 
 if __name__ == '__main__':
