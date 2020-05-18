@@ -95,11 +95,10 @@ if __name__ == '__main__':
     onnx_path = os.path.join(FLAGS.model, "model.onnx")
     print("saving model in ", onnx_path)
     with torch.no_grad():
-        torch.onnx.export(model, dummy_input, onnx_path, verbose=FLAGS.verbose)
+        torch.onnx.export(model, dummy_input, onnx_path, verbose=True)
 
     # check that it worked
     model_onnx = onnx.load(onnx_path)
     onnx.checker.check_model(model_onnx)
     # Print a human readable representation of the graph
-    if FLAGS.verbose:
-        print(onnx.helper.printable_graph(model_onnx.graph))
+    print(onnx.helper.printable_graph(model_onnx.graph))
