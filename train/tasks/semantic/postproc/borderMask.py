@@ -106,13 +106,13 @@ class borderMask(nn.Module):
 
   """
     super().__init__()
-    self.nclasses = nclasses
+    self.n_classes = nclasses
     self.device = device
     self.border_size = border_size
     self.kern_conn = kern_conn
     self.background_class = background_class
     if self.background_class is not None:
-      self.include_idx = list(range(self.nclasses))
+      self.include_idx = list(range(self.n_classes))
       self.exclude_idx = self.include_idx.pop(self.background_class)
 
     # check connectivity
@@ -123,7 +123,7 @@ class borderMask(nn.Module):
 
     # make the onehot inferer
     self.onehot = oneHot(self.device,
-                         self.nclasses,
+                         self.n_classes,
                          spatial_dim=2)  # range labels
 
   def forward(self, range_label):
