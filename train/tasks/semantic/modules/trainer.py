@@ -213,7 +213,7 @@ class Trainer():
       if w < 1e-10:
         self.ignore_class.append(i)
         print("Ignoring class ", i, " in IoU evaluation")
-    self.evaluator = iouEval(self.parser.get_n_classes(),
+    self.evaluator = IoUEval(self.parser.get_n_classes(),
                              self.device, self.ignore_class)
 
     # train for n epochs
@@ -331,9 +331,9 @@ class Trainer():
       with torch.no_grad():
         evaluator.reset()
         argmax = output.argmax(dim=1)
-        evaluator.addBatch(argmax, proj_labels)
-        accuracy = evaluator.getacc()
-        jaccard, class_jaccard = evaluator.getIoU()
+        evaluator.add_batch(argmax, proj_labels)
+        accuracy = evaluator.get_accuracy()
+        jaccard, class_jaccard = evaluator.get_iou()
       losses.update(loss.item(), in_vol.size(0))
       acc.update(accuracy.item(), in_vol.size(0))
       iou.update(jaccard.item(), in_vol.size(0))
@@ -416,7 +416,7 @@ class Trainer():
 
         # measure accuracy and record loss
         argmax = output.argmax(dim=1)
-        evaluator.addBatch(argmax, proj_labels)
+        evaluator.add_batch(argmax, proj_labels)
         losses.update(loss.mean().item(), in_vol.size(0))
 
         if save_scans:
@@ -436,8 +436,8 @@ class Trainer():
         batch_time.update(time.time() - end)
         end = time.time()
 
-      accuracy = evaluator.getacc()
-      jaccard, class_jaccard = evaluator.getIoU()
+      accuracy = evaluator.get_accuracy()
+      jaccard, class_jaccard = evaluator.get_iou()
       acc.update(accuracy.item(), in_vol.size(0))
       iou.update(jaccard.item(), in_vol.size(0))
 

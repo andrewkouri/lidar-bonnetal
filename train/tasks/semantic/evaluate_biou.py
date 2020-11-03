@@ -198,8 +198,8 @@ if __name__ == '__main__':
                                u_scan_px, u_scan_py)
 
   # when I am done, print the evaluation
-  m_accuracy = evaluator.getacc()
-  m_jaccard, class_jaccard = evaluator.getIoU()
+  m_accuracy = evaluator.get_accuracy()
+  m_jaccard, class_jaccard = evaluator.get_iou()
 
   print('Validation set:\n'
         'bAcc avg {m_accuracy:.3f}\n'
