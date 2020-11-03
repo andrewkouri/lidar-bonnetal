@@ -9,3 +9,4 @@
 devel/
 logs/
 external.hpp
+.idea/*
