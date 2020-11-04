@@ -213,7 +213,7 @@ class SemanticKitti(Dataset):
         return lut[label]
 
 
-class Parser():
+class Parser:
     # standard conv, BN, relu
     def __init__(self,
                  root,  # directory for data

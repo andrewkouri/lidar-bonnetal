@@ -19,8 +19,6 @@ def infer_and_save_labels(model, data_loader, to_orig_fn, out_directory, use_gpu
         # first cut to rela size (batch size one allows it)
         p_x = p_x[0, :npoints]
         p_y = p_y[0, :npoints]
-        proj_range = proj_range[0, :npoints]
-        unproj_range = unproj_range[0, :npoints]
         path_seq = path_seq[0]
         path_name = path_name[0]
 

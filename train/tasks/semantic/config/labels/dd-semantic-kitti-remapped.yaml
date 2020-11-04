@@ -1,6 +1,6 @@
 # This file is covered by the LICENSE file in the root of this project.
 name: "kitti"
-labels: 
+labels:
   0 : "unlabeled"
   1 : "outlier"
   10: "car"
@@ -154,6 +154,21 @@ learning_map_inv: # inverse of previous map
   1: 40     # map "drivable" to kitti's concept of "road"
   2: 72     # map "non-drivable ground" to kitti's concept of "terrain"
   3: 10     # map "dynamic obcstalces" to kitti's "car"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
+  4: 50     # map "static obsctalce" to kitti's "building"
   4: 50     # map "static obsctalce" to kitti's "building"
 learning_ignore: # Ignore classes
   0: True      # "unlabeled", and others ignored
