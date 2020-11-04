@@ -131,7 +131,7 @@ if __name__ == '__main__':
     # concatenate the encoder and the head
     with torch.no_grad():
         net = Segmentator(ARCH,
-                          20,
+                          len(DATA['learning_map_inv']),
                           FLAGS.model)
         net.eval()
         # use knn post processing?
