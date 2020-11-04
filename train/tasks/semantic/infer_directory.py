@@ -128,14 +128,14 @@ if __name__ == '__main__':
                                               num_workers=0,
                                               pin_memory=True,
                                               drop_last=True)
-    model = None
+    net = None
 
     # concatenate the encoder and the head
     with torch.no_grad():
-        model = Segmentator(ARCH,
-                            len(DATA['learning_map_inv']),
-                            FLAGS.model)
-        model.eval()
+        net = Segmentator(ARCH,
+                          len(DATA['learning_map_inv']),
+                          FLAGS.model)
+        net.eval()
         # use knn post processing?
         # self.post = None
         # if self.ARCH["post"]["KNN"]["use"]:
@@ -149,10 +149,10 @@ if __name__ == '__main__':
         if torch.cuda.is_available() and torch.cuda.device_count() > 0:
             cudnn.benchmark = True
             cudnn.fastest = True
-            gpu = True
-            model.cuda()
+            net.cuda()
             torch.cuda.empty_cache()
+            use_gpu = True
 
-        infer_and_save_labels(model, data_loader,
+        infer_and_save_labels(net, data_loader,
                               lambda label: SemanticKitti.map(label, DATA['learning_map_inv']),
-                              FLAGS.output_directory)
+                              FLAGS.output_directory, use_gpu=use_gpu)

@@ -9,6 +9,7 @@ import torch.nn.functional as F
 from tasks.semantic.postproc.CRF import CRF
 import pathlib
 
+
 class Segmentator(nn.Module):
     def __init__(self, ARCH, nclasses, path=None, path_append="", strict=False):
         super().__init__()
