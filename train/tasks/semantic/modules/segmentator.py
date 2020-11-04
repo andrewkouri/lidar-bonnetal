@@ -39,7 +39,8 @@ class Segmentator(nn.Module):
         _, stub_skips = self.backbone(stub)
 
         decoder_spec = importlib.util.spec_from_file_location("DecoderModule",
-                                                              "../decoders/" + self.ARCH["decoder"]["name"] + ".py")
+                                                              cur_dir.joinpath("../decoders/" +
+                                                                               self.ARCH["decoder"]["name"] + ".py"))
         decoder_module = importlib.util.module_from_spec(decoder_spec)
         decoder_spec.loader.exec_module(decoder_module)
         self.decoder = decoder_module.Decoder(params=self.ARCH["decoder"],
