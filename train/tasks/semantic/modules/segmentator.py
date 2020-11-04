@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # This file is covered by the LICENSE file in the root of this project.
 
-import imp
+import importlib.util
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from tasks.semantic.postproc.CRF import CRF
-import __init__ as booger
 
 
 class Segmentator(nn.Module):
@@ -19,10 +19,11 @@ class Segmentator(nn.Module):
         self.strict = False
 
         # get the model
-        bboneModule = imp.load_source("bboneModule",
-                                      booger.TRAIN_PATH + '/backbones/' +
-                                      self.ARCH["backbone"]["name"] + '.py')
-        self.backbone = bboneModule.Backbone(params=self.ARCH["backbone"])
+        spec = importlib.util.spec_from_file_location("BackboneModule",
+                                                      "../../../backbones/" + self.ARCH["backbone"]["name"] + ".py")
+        backbone_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(backbone_module)
+        self.backbone = backbone_module.Backbone(params=self.ARCH["backbone"])
 
         # do a pass of the backbone to initialize the skip connections
         stub = torch.zeros((1,
@@ -35,13 +36,14 @@ class Segmentator(nn.Module):
             self.backbone.cuda()
         _, stub_skips = self.backbone(stub)
 
-        decoderModule = imp.load_source("decoderModule",
-                                        booger.TRAIN_PATH + '/tasks/semantic/decoders/' +
-                                        self.ARCH["decoder"]["name"] + '.py')
-        self.decoder = decoderModule.Decoder(params=self.ARCH["decoder"],
-                                             stub_skips=stub_skips,
-                                             OS=self.ARCH["backbone"]["OS"],
-                                             feature_depth=self.backbone.get_last_depth())
+        decoder_spec = importlib.util.spec_from_file_location("DecoderModule",
+                                                              "../decoders/" + self.ARCH["decoder"]["name"] + ".py")
+        decoder_module = importlib.util.module_from_spec(decoder_spec)
+        spec.loader.exec_module(decoder_module)
+        self.decoder = decoder_module.Decoder(params=self.ARCH["decoder"],
+                                              stub_skips=stub_skips,
+                                              OS=self.ARCH["backbone"]["OS"],
+                                              feature_depth=self.backbone.get_last_depth())
 
         self.head = nn.Sequential(nn.Dropout2d(p=ARCH["head"]["dropout"]),
                                   nn.Conv2d(self.decoder.get_last_depth(),

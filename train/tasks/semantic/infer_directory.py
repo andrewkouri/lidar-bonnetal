@@ -7,7 +7,6 @@ import os
 import torch
 
 import yaml
-import __init__ as booger
 from tasks.semantic.dataset.kitti.parser import SemanticKitti
 from tasks.semantic.modules.segmentator import Segmentator
 import torch.backends.cudnn as cudnn
