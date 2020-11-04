@@ -7,7 +7,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from tasks.semantic.postproc.CRF import CRF
-
+import pathlib
 
 class Segmentator(nn.Module):
     def __init__(self, ARCH, nclasses, path=None, path_append="", strict=False):
@@ -19,8 +19,10 @@ class Segmentator(nn.Module):
         self.strict = False
 
         # get the model
+        cur_dir = pathlib.Path(__file__).parent.absolute()
         spec = importlib.util.spec_from_file_location("BackboneModule",
-                                                      "../../../backbones/" + self.ARCH["backbone"]["name"] + ".py")
+                                                      cur_dir.joinpath("../../../backbones/" +
+                                                                       self.ARCH["backbone"]["name"] + ".py"))
         backbone_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(backbone_module)
         self.backbone = backbone_module.Backbone(params=self.ARCH["backbone"])
@@ -39,7 +41,7 @@ class Segmentator(nn.Module):
         decoder_spec = importlib.util.spec_from_file_location("DecoderModule",
                                                               "../decoders/" + self.ARCH["decoder"]["name"] + ".py")
         decoder_module = importlib.util.module_from_spec(decoder_spec)
-        spec.loader.exec_module(decoder_module)
+        decoder_spec.loader.exec_module(decoder_module)
         self.decoder = decoder_module.Decoder(params=self.ARCH["decoder"],
                                               stub_skips=stub_skips,
                                               OS=self.ARCH["backbone"]["OS"],
