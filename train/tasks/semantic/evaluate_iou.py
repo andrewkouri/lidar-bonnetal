@@ -93,7 +93,7 @@ if __name__ == '__main__':
     number_of_classes = len(class_inv_remap)
 
     # make lookup table for mapping
-    max_key = class_remap.keys().max()
+    max_key = max(class_remap.keys())
     # +100 hack making lut bigger just in case there are unknown labels
     remap_lut = np.zeros((max_key + 100), dtype=np.int32)
     for key, data in class_remap.items():
