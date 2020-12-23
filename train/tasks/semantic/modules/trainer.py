@@ -16,6 +16,7 @@ from common.sync_batchnorm.batchnorm import convert_model
 from common.warmupLR import *
 from tasks.semantic.modules.ioueval import *
 from tasks.semantic.modules.segmentator import *
+import __init__ as booger
 
 
 class Trainer():
@@ -43,8 +44,8 @@ class Trainer():
 
         # get the data
         parser_module = imp.load_source("parserModule",
-                                       booger.TRAIN_PATH + '/tasks/semantic/dataset/' +
-                                       self.DATA["name"] + '/parser.py')
+                                        booger.TRAIN_PATH + '/tasks/semantic/dataset/' +
+                                        self.DATA["name"] + '/parser.py')
         self.parser = parser_module.Parser(root=self.data_dir,
                                            train_sequences=self.DATA["split"]["train"],
                                            valid_sequences=self.DATA["split"]["valid"],
@@ -170,7 +171,7 @@ class Trainer():
         # make label gt
         gt_color = color_fn(gt)
         out_img = np.concatenate([out_img, gt_color], axis=0)
-        return (out_img).astype(np.uint8)
+        return out_img.astype(np.uint8)
 
     @staticmethod
     def save_to_log(logdir, logger, info, epoch, w_summary=False, model=None, img_summary=False, imgs=[]):
