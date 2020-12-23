@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 # This file is covered by the LICENSE file in the root of this project.
 
+import imp
 import os
 import time
+
+from matplotlib import pyplot as plt
 
 import cv2
 import torch.backends.cudnn as cudnn
 import torch.optim as optim
-from matplotlib import pyplot as plt
-
 from common.avgmeter import *
 from common.logger import Logger
 from common.sync_batchnorm.batchnorm import convert_model
